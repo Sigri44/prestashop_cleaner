@@ -9,6 +9,9 @@ $scan_dir = $shop_root.$image_folder;
 include_once($shop_root.'config/config.inc.php');
 include $shop_root . 'config/settings.inc.php';
 
+// Type : test (echo) OR prod (unlink)
+$type = "test";
+
 #---------------------------------------------#
 $last_id = (int)Db::getInstance()->getValue('
 	SELECT id_image FROM '._DB_PREFIX_.'image ORDER BY id_image DESC
@@ -22,8 +25,8 @@ $counted_images = (int)$counted_images[0]['qnt'];
 
 echo 'There was '.$last_id.' images in database but only '.$counted_images.' is used right now. Lets check how many of them are eating up our storage without no reason.<br>';
 
-//$limit = 150; // for testing
-$limit = $last_id; // for production
+$limit = 150; // for testing
+//$limit = $last_id; // for production
 
 $removed_images = 0;
 
@@ -42,7 +45,11 @@ function deleteImagesFromPath($path) {
 	if ($images){
 		foreach ($images as $file) {
 			if (is_file($file)) {
-				unlink($file);
+                if ($type === "prod") {
+                    unlink($file);
+                } else {
+                    echo $file . 'devrait être supprimé !<br/>';
+                }
 			}
 		}
 		$removed_images++;

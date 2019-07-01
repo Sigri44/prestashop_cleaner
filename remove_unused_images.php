@@ -45,11 +45,11 @@ function deleteImagesFromPath($path) {
 	if ($images){
 		foreach ($images as $file) {
 			if (is_file($file)) {
-                if ($type === "prod") {
-                    unlink($file);
-                } else {
-                    echo $file . 'devrait être supprimé !<br/>';
-                }
+				if ($type === "prod") {
+				    unlink($file);
+				} else {
+				    echo $file . 'devrait être supprimé !<br/>';
+				}
 			}
 		}
 		$removed_images++;
